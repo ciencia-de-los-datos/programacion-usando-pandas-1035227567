@@ -100,9 +100,8 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    unic4 = sorted(tbl1["_c4"].str.upper().unique().tolist())
-    return unic4
-
+    vunico4 = sorted(tbl1["_c4"].str.upper().unique().tolist())
+    return vunico4
 
 def pregunta_07():
     """
@@ -173,11 +172,12 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    tbl0_agrupado= tbl0.groupby("_c1")["_c2"].apply(lambda x: ":".join(sorted(x.astype(str)))).reset_index()
-    tbl0_agrupado["_c1"] = tbl0_agrupado["_c1"].astype(str)
-    tbl0_agrupado.set_index("_c1", inplace=True)
-    tbl0_agrupado.index.name = "_c0"
-
+    data=tbl0.filter(items=("_c1","_c2"))
+    data=data.sort_values("_c2")
+    data["_c2"]=data["_c2"].astype(str)
+    tabla=data.groupby(["_c1"],as_index=False).aggregate({"_c2":":".join})
+    tabla.set_index("_c1", inplace=True)
+    return tabla
 
 def pregunta_11():
     """
